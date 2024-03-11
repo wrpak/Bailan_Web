@@ -1,31 +1,38 @@
-const account_id = localStorage.getItem('account_id');
+async function showCartItems() {
+    const accountId = localStorage.getItem('account_id');
 
-async function fetchCartData() {
     try {
-        const response = await axios.get('/show_cart?reader_id=${account_id}'); // แทนที่ 123 ด้วย ID ของผู้ใช้จริง
-        const cartItems = response.data["reader_cart"]; // สมมติว่า API ส่งข้อมูลในรูปแบบนี้
+        const response = await axios.get(`http://localhost:8000/show_cart?reader_id=${accountId}`);
+        const cartItems = response.data.reader_cart;
 
         const cartItemsContainer = document.getElementById('cartItems');
-        cartItemsContainer.innerHTML = ''; // เคลียร์รายการสินค้าเก่าทิ้งก่อน
+        cartItemsContainer.innerHTML = ''; // Clear the cart items before rendering new data
 
         cartItems.forEach(item => {
-            const itemElement = document.createElement('div');
-            itemElement.classList.add('mb-3', 'p-3', 'border', 'border-primary');
-            itemElement.innerHTML = `
-                <h5>${item.book_name}</h5>
-                <p>Price: ${item.price}</p>
-                <p>Quantity: ${item.quantity}</p>
-                <!-- สามารถเพิ่มรายละเอียดเพิ่มเติมได้ตามต้องการ -->
+            const bookItem = document.createElement('div');
+            bookItem.classList.add('col-md-4', 'mb-4');
+
+            // Create HTML to display book details
+            const bookInfo = `
+                <div class="card">
+                    <img src="${item.image}" class="card-img-top" alt="${item.book_name} Image">
+                    <div class="card-body">
+                        <h5 class="card-title">${item.book_name}</h5>
+                        <p class="card-text">Price: ${item.price} coin</p>
+                    </div>
+                </div>
             `;
-            cartItemsContainer.appendChild(itemElement);
+
+            // Append HTML to the container
+            bookItem.innerHTML = bookInfo;
+            cartItemsContainer.appendChild(bookItem);
         });
     } catch (error) {
-        console.error('Error fetching cart data:', error);
+        console.error('Error fetching cart items:', error);
     }
 }
 
-// เรียกใช้งานฟังก์ชันเมื่อหน้าเว็บโหลดเสร็จ
+// Call the showCartItems function when the cart.html page loads
 window.onload = function () {
-    const account_id = getLoggedInUserId(); // สมมติว่ามีฟังก์ชัน getLoggedInUserId() ที่สร้างขึ้นเพื่อรับค่า account_id ของผู้ใช้ที่ล็อกอิน
-    fetchCartData(account_id);
-}
+    showCartItems();
+};

@@ -37,7 +37,7 @@
                         <input id="search_by_name" class="form-control me-1" type="text" placeholder="Search">
                         <button id="searchButton" class="btn btn-outline-light me-1" type="button">Search</button>
                     </form>
-                </div>                
+                </div>
             </div>
         </div>
     </nav>
@@ -46,20 +46,22 @@
 
     <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-1">
-            <button class="btn btn-danger d-block mx-auto mx-2 promotion-btn" onclick="get_promotion()">promotion</button>
-          </div>
+            <div class="col-md-1">
+                <button class="btn btn-danger d-block mx-auto mx-2 promotion-btn"
+                    onclick="get_promotion()">promotion</button>
+            </div>
         </div>
-      </div>
+    </div>
 
-    
+
     <div id="content"></div>
 
     <div class="text-center py-4">
         <h2 class="text-center mt-4">Complain</h2>
         <div class="d-flex align-items-center justify-content-center mt-4">
             <form class="d-flex" role="complain">
-                <input id="complain" class="form-control me-2" type="text" placeholder="Complain" style="width: 400px; border-top-color: #343a40; border-right-color: #343a40; border-bottom-color: #343a40; border-left-color: #343a40;">
+                <input id="complain" class="form-control me-2" type="text" placeholder="Complain"
+                    style="width: 400px; border-top-color: #343a40; border-right-color: #343a40; border-bottom-color: #343a40; border-left-color: #343a40;">
                 <button onclick="add_complain(event)" class="btn btn-outline-dark me-2" type="button">Submit</button>
                 <button onclick="show_complain()" class="btn btn-outline-dark me-2" type="button">view complain</button>
             </form>
@@ -69,7 +71,7 @@
     <div class="mt-4" id="complainList"></div>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             get_all_book()
 
             //const account_id = localStorage.getItem('account_id');
@@ -80,13 +82,13 @@
             if (searchInput) {
                 search_by_name_2(searchInput);
             }
-    
+
             const queryParamsBookInfo = new URLSearchParams(window.location.search);
             const bookId = queryParamsBookInfo.get('id');
             if (bookId) {
                 show_comment();
             }
-    
+
             const queryParamsPromotion = new URLSearchParams(window.location.search);
             const isPromotion = queryParamsPromotion.get('promotion');
             if (isPromotion === 'true') {

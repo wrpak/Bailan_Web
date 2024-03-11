@@ -168,17 +168,17 @@ async def get_book_by_promotion(promotion:str) -> dict:
 
 
 #Cart
-@app.get("/add_cart", tags=['Cart'])
+@app.post("/add_cart", tags=['Cart'])
 async def add_book_to_card(reader_id: int, book_id: int) -> dict:
-    return {"Book's in card": controller.add_book_to_cart(book_id, reader_id)}
+    return {"book_in_cart": controller.add_book_to_cart(book_id, reader_id)}
 
 @app.delete("/remove_book", tags = ["Cart"])
-async def remove_book_from_cart(reader_id :int, book_id :int) -> dict:
-    return {"Message" : controller.remove_book_from_cart(reader_id, book_id)}
+async def remove_book_from_cart(reader_id :int, book_id : int) -> dict:
+    return {"message" : controller.remove_book_from_cart(reader_id, book_id)}
 
 @app.get("/show_cart", tags=["Cart"])
 async def show_cart(reader_id: int) -> dict:
-    return {"Reader's Cart": controller.show_reader_cart(reader_id)}  
+    return {"reader_cart": controller.show_reader_cart(reader_id)}  
 
 @app.post("/select_book_checkout", tags=['Cart'])
 async def select_book_checkout(reader_id: int, book_ids: List[int]):

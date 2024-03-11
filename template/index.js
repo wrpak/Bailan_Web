@@ -121,7 +121,7 @@ function displayBookList(bookList) {
   });
 
   content.appendChild(divRow);
-}
+} 
 
 
 async function get_book_info(id) {
@@ -359,4 +359,6 @@ async function reader_book_collection() {
   const book_list = response.data["Book's list"];
   displayBookList(book_list);
 }
+
+
 
