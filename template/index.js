@@ -6,11 +6,11 @@ function changeHeading(text) {
 }
 
 async function get_all_book() {
-    const response = await axios.get('http://127.0.0.1:8000/get_all_book');
-    console.log(response.data);
-    const book_list = response.data.book_list;
-    console.log(book_list);
-    displayBookList(book_list);
+  const response = await axios.get('http://127.0.0.1:8000/get_all_book');
+  console.log(response.data);
+  const book_list = response.data.book_list;
+  console.log(book_list);
+  displayBookList(book_list);
 }
 
 function page_search_by_name() {
@@ -26,7 +26,7 @@ async function search_by_name(event) {
 
   const response = await axios.get(
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
-    
+
   );
 
   console.log(response.data);
@@ -42,7 +42,7 @@ async function search_by_name(event) {
 async function search_by_name_2(input) {
   const content = document.getElementById("content");
   const response = await axios.get(
-      `http://127.0.0.1:8000/search_book_by_name?name=${input}`
+    `http://127.0.0.1:8000/search_book_by_name?name=${input}`
   );
 
   const heading = document.querySelector('h1.text-center.py-4');
@@ -89,9 +89,9 @@ function displayBookList(bookList) {
     pWriter.classList.add('card-text');
     pWriter.textContent = `Writer: ${book.writer_name}`;
     pWriter.style.cursor = 'pointer';
-    pWriter.addEventListener('click', function() {
-    const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
-    window.location.href = writerBookCollectionUrl;
+    pWriter.addEventListener('click', function () {
+      const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
+      window.location.href = writerBookCollectionUrl;
     });
 
     const pRating = document.createElement('p');
@@ -121,13 +121,13 @@ function displayBookList(bookList) {
   });
 
   content.appendChild(divRow);
-} 
+}
 
 
 async function get_book_info(id) {
   const response = await axios.get(
     `http://127.0.0.1:8000/book_info?id=${id}`
-    );
+  );
   console.log(response.data);
 
   const bookInfo = response.data["Book's info"];
@@ -190,7 +190,7 @@ async function get_promotion() {
   const response = await axios.get('http://127.0.0.1:8000/show_promotion');
   const promotion = response.data.Promotion;
   console.log(promotion)
-  
+
   const heading = document.querySelector('h1.text-center.py-4');
   heading.textContent = promotion;
 
@@ -267,10 +267,10 @@ function displayComment(commentList) {
   commentList.forEach(comment => {
     const commentDiv = document.createElement('div');
     commentDiv.classList.add('commentDiv');
-    
+
     const accountDiv = document.createElement('div');
     accountDiv.classList.add('accountDiv');
-    
+
     const datetimeDiv = document.createElement('div');
     datetimeDiv.classList.add('datetimeDiv');
 
@@ -339,7 +339,7 @@ async function writer_book_collection() {
 
   const content = document.getElementById("content");
   const response = await axios.get(
-      `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
+    `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
   );
 
   const book_list = response.data["Book's list"];
@@ -353,12 +353,11 @@ async function reader_book_collection() {
 
   const content = document.getElementById("content");
   const response = await axios.get(
-      `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${account_id}`
+    `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${account_id}`
   );
 
   const book_list = response.data["Book's list"];
   displayBookList(book_list);
 }
-
 
 
