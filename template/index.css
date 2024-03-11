@@ -1,0 +1,68 @@
+.bg-header {
+    background-color: rgb(0, 0, 0);
+}
+
+.h1-center {
+    color: white;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.promotion-btn {
+    background-color: #ff6347;
+    color: #fff;
+}
+
+.checked {
+    color: orange;
+  }
+
+.btn-outline-light {
+    background-color: #e9e9e9;
+    color: black;
+}
+
+
+.bookInfoContainer {
+    display: flex;
+    flex-direction: row;
+    /* เปลี่ยนเป็นแนวตั้ง */
+    align-items: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางตามแนวนอน */
+    justify-content: center;
+    /* จัดให้เนื้อหาอยู่ตรงกลางตามแนวตั้ง */
+    padding: 20px;
+    height: 100vh;
+    /* ทำให้เนื้อหาอยู่ตรงกลางของหน้าจอทั้งความสูง */
+    margin-top: -100px;
+}
+
+.bookInfoDetails {
+    margin-top: -100px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#bookCover {
+    width: 320px;
+    /* กำหนดขนาดสูงสุดของรูปภาพ */
+}
+
+.btn {
+    margin-left: 2px;
+}
+
+.star {
+    margin-top: -250px;
+    margin-left: 740px;
+}
+
+.comment {
+    margin-left: 740px;
+} 
+
+a {
+    color: black;
+    text-decoration: none;
+  }  
+  

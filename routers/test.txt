@@ -1,0 +1,41 @@
+TEST show_book_info
+
+book.promotion = Promotion("valentine", 10, book)
+controller.add_book(book)
+print(controller.show_book_info(1))
+
+-------------------------------------------------
+
+TEST transfer
+
+print(writer1.coin)
+print(controller.transfer(1, 5))
+print(writer1.coin)
+print(writer1.money)
+for info in writer1.coin_transaction_history_list:
+    print(info)
+
+-------------------------------------------------
+
+TEST rent
+
+print(controller.rent(1, [1,2,3,4,5]))
+for book in reader1.book_collection_list:
+    print(book.name)
+    print(book.book_status)
+print(reader1.coin)
+for info in reader1.coin_transaction_history_list:
+    print(info)
+
+-------------------------------------------------
+
+TEST find book from promotion
+
+print(controller.search_book_by_promotion("valentine"))
+print(controller.search_book_by_promotion("new year"))
+
+------------------------------------------------
+
+TEST add rating
+
+print(book1.review.rating)
