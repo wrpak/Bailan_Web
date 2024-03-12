@@ -1,4 +1,5 @@
 const account_id = localStorage.getItem('account_id');
+const Type = localStorage.getItem('account_type');
 
 function changeHeading(text) {
   const heading = document.querySelector('h1.text-center.py-4');
@@ -6,11 +7,11 @@ function changeHeading(text) {
 }
 
 async function get_all_book() {
-  const response = await axios.get('http://127.0.0.1:8000/get_all_book');
-  console.log(response.data);
-  const book_list = response.data.book_list;
-  console.log(book_list);
-  displayBookList(book_list);
+    const response = await axios.get('http://127.0.0.1:8000/get_all_book');
+    console.log(response.data);
+    const book_list = response.data.book_list;
+    console.log(book_list);
+    displayBookList(book_list);
 }
 
 function page_search_by_name() {
@@ -26,9 +27,8 @@ async function search_by_name(event) {
 
   const response = await axios.get(
     `http://127.0.0.1:8000/search_book_by_name?name=${input}`
-
+    
   );
-
   console.log(response.data);
 
   const heading = document.querySelector('h1.text-center.py-4');
@@ -42,7 +42,7 @@ async function search_by_name(event) {
 async function search_by_name_2(input) {
   const content = document.getElementById("content");
   const response = await axios.get(
-    `http://127.0.0.1:8000/search_book_by_name?name=${input}`
+      `http://127.0.0.1:8000/search_book_by_name?name=${input}`
   );
 
   const heading = document.querySelector('h1.text-center.py-4');
@@ -56,6 +56,7 @@ async function search_by_name_2(input) {
 document.getElementById("searchButton").addEventListener("click", search_by_name);
 
 function displayBookList(bookList) {
+
   const content = document.getElementById("content");
   content.innerHTML = '';
 
@@ -88,9 +89,9 @@ function displayBookList(bookList) {
     pWriter.classList.add('card-text');
     pWriter.textContent = `Writer: ${book.writer_name}`;
     pWriter.style.cursor = 'pointer';
-    pWriter.addEventListener('click', function () {
-      const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
-      window.location.href = writerBookCollectionUrl;
+    pWriter.addEventListener('click', function() {
+    const writerBookCollectionUrl = `writer_book_collection.html?writer=${book.writer_name}`;
+    window.location.href = writerBookCollectionUrl;
     });
 
     const pRating = document.createElement('p');
@@ -122,10 +123,11 @@ function displayBookList(bookList) {
   content.appendChild(divRow);
 }
 
+
 async function get_book_info(id) {
   const response = await axios.get(
     `http://127.0.0.1:8000/book_info?id=${id}`
-  );
+    );
   console.log(response.data);
 
   const bookInfo = response.data["Book's info"];
@@ -179,16 +181,31 @@ async function add_rating() {
   console.log("id", Id)
   console.log("stars", stars)
 
-  const response = await axios.post(
-    `http://127.0.0.1:8000/rating?book_id=${Id}&rating=${stars}`
-  );
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/rating?book_id=${Id}&rating=${stars}`
+    );
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
+  }
 }
 
 async function get_promotion() {
   const response = await axios.get('http://127.0.0.1:8000/show_promotion');
   const promotion = response.data.Promotion;
   console.log(promotion)
-
+  
   const heading = document.querySelector('h1.text-center.py-4');
   heading.textContent = promotion;
 
@@ -215,35 +232,32 @@ async function get_promotion_page() {
 async function add_comment(event) {
   if (event) {
     event.preventDefault();
-    event.stopPropagation();
   }
 
   const urlParams = new URLSearchParams(window.location.search);
   const bookId = urlParams.get('id');
   const input = document.getElementById("comment").value;
 
-  const response = await axios.post(
-    `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
-  );
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
+    );
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      showConfirmButton: false,
+      timer: 1500
+    });
 
-  console.log(response.data);
-}
-
-async function add_comment(event) {
-  if (event) {
-    event.preventDefault();
+    console.log(response.data);
+    show_comment();
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
   }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const bookId = urlParams.get('id');
-  const input = document.getElementById("comment").value;
-
-  const response = await axios.post(
-    `http://127.0.0.1:8000/comment?Reader_id=${account_id}&Book_id=${bookId}&comment=${input}`
-  );
-
-  console.log(response.data);
-  show_comment();
 }
 
 async function show_comment() {
@@ -265,12 +279,16 @@ function displayComment(commentList) {
   commentList.forEach(comment => {
     const commentDiv = document.createElement('div');
     commentDiv.classList.add('commentDiv');
-
+    
     const accountDiv = document.createElement('div');
     accountDiv.classList.add('accountDiv');
-
+    
     const datetimeDiv = document.createElement('div');
     datetimeDiv.classList.add('datetimeDiv');
+
+    const commentPara = document.createElement('p');
+    commentPara.textContent = `${comment.comment}`;
+    commentDiv.appendChild(commentPara);
 
     const accountPara = document.createElement('p');
     accountPara.textContent = `${comment.account}`;
@@ -280,18 +298,9 @@ function displayComment(commentList) {
     datetimePara.textContent = `${comment.datetime}`;
     datetimeDiv.appendChild(datetimePara);
 
-    // Append accountDiv and datetimeDiv above the comment text
-    commentDiv.appendChild(accountDiv);
-    commentDiv.appendChild(datetimeDiv);
-
-    const commentPara = document.createElement('p');
-    commentPara.textContent = `${comment.comment}`;
-
-    commentPara.style.fontWeight = 'bold';
-
-    commentDiv.appendChild(commentPara);
-
     commentListDiv.appendChild(commentDiv);
+    commentListDiv.appendChild(accountDiv);
+    commentListDiv.appendChild(datetimeDiv);
   });
 }
 
@@ -301,12 +310,27 @@ async function add_complain(event) {
   }
 
   const input = document.getElementById("complain").value;
-
   const response = await axios.post(
     `http://127.0.0.1:8000/submit_complaint?user_id=${account_id}&message=${input}`
   );
 
-  console.log(response.data);
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/submit_complaint?user_id=${account_id}&message=${input}`
+    );
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+    });
+  }
 }
 
 async function show_complain() {
@@ -333,20 +357,31 @@ function displayComplain(complainList) {
   });
 }
 
-async function writer_book_collection() {
-  const queryParams = new URLSearchParams(window.location.search);
+async function writer_book_collection(queryParams) {
   const writer = queryParams.get('writer');
-
   const heading = document.querySelector('h1.text-center.py-4');
-  heading.textContent = `${writer} Collection`;
+  // console.log(writer);
+  if (writer) {
+      const response = await axios.get(
+          `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
+      );
 
-  const content = document.getElementById("content");
-  const response = await axios.get(
-    `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${writer}`
-  );
+      const book_list = response.data["Book's list"];
+      displayBookList(book_list);
+  } else {
+      const accountName = localStorage.getItem('username');
+      console.log(accountName);
+      if (accountName) {
+          const response = await axios.get(
+              `http://127.0.0.1:8000/show_book_collection_of_writer?writer_name=${accountName}`
+          );
 
-  const book_list = response.data["Book's list"];
-  displayBookList(book_list);
+          const book_list = response.data["Book's list"];
+          displayBookList(book_list);
+      } else {
+          console.log("No writer specified in the URL and no account ID found.");
+      }
+  }
 }
 
 async function reader_book_collection() {
@@ -356,11 +391,18 @@ async function reader_book_collection() {
 
   const content = document.getElementById("content");
   const response = await axios.get(
-    `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${account_id}`
+      `http://127.0.0.1:8000/show_book_collection_of_reader?Reader_id=${account_id}`
   );
 
   const book_list = response.data["Book's list"];
   displayBookList(book_list);
 }
 
-
+function check_collection(accountType) {
+  console.log(Type);
+  if (accountType === Type) {
+    window.location.href = 'reader_book_collection.html';
+  } else {
+    window.location.href = 'writer_book_collection.html';
+  }
+}

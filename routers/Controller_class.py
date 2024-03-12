@@ -61,6 +61,7 @@ class Controller:
         book.writer = writer
         self.__book_list.append(book)
         writer.book_collection_list.append(book)
+        return "Success"
 
     def add_payment_method(self, payment_method):
         self.__payment_method_list.append(payment_method)
@@ -107,10 +108,18 @@ class Controller:
                 return book
         return None
     
+    def search_coin(self, account_id):
+        account = self.search_reader_by_id(account_id)
+        if account is None:
+            account = self.search_writer_by_id(account_id)
+            if account is None:
+                return "Not found account"
+        return account.coin
+    
     def search_book_by_bookname(self, bookname):
         new_book_list = []
         for book in self.__book_list:
-            if book.name == bookname or bookname in book.name:
+            if book.name.lower() == bookname.lower() or bookname.lower() in book.name.lower():
                 format = {
                     "id": book.id,
                     "book_name" : book.name,
@@ -286,7 +295,7 @@ class Controller:
                 selected_books = [book for book in reader.cart.book_cart_list if book.id in book_ids]
                 if selected_books:
                     total_coin = sum(book.price_coin for book in selected_books)
-                    return {"message": "Books selected for checkout", "total_coin": total_coin}
+                    return {"message": "Books selected for checkout", "total_coin": total_coin, "list book": book_ids}
                 else:
                     return {"error": "Invalid book selection"}
             else:
@@ -355,7 +364,7 @@ class Controller:
                         account.update_coin_transaction_history_list(coin,date_time,"top up")
                         return "Success"
                     else : return "Please increse/decrese money 1 Baht"
-                return "Not Found Chanel"
+            return "Not Found Chanel"
         return "Don't Have any Account"
     def transfer(self, writer_id, coin):
         account = self.search_writer_by_id(writer_id)
@@ -500,14 +509,6 @@ class Controller:
                 return account.id_account, "writer"
         return None, None
 
-    def register_user(self, account_name, password, role):
-        if role == "reader":
-            return self.register_reader(account_name, password)
-        elif role == "writer":
-            return self.register_writer(account_name, password)
-        else:
-            return "Invalid role"    
-
     def register_reader(self, account_name, password):
         for reader in self.__reader_list:
             if reader.account_name == account_name:
@@ -519,7 +520,7 @@ class Controller:
         self.__reader_list.append(reader)
         
         return "Reader registered successfully."
-
+    
     def register_writer(self, account_name, password):
         for writer in self.__writer_list:
             if writer.account_name == account_name:
@@ -531,4 +532,3 @@ class Controller:
         self.__writer_list.append(writer)
         
         return "Writer registered successfully."
-        

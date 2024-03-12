@@ -16,3 +16,4 @@ async function get_chanels() {
       payment_chanel.appendChild(div);
     });
   }
+  

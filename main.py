@@ -2,9 +2,11 @@ from typing import Optional
 from typing import Union
 from typing import List
 from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException , File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
+
 
 # routers class
 from routers.Controller_class import Controller
@@ -14,6 +16,7 @@ from routers.Review_class import Review
 from routers.Promotion_class import Promotion
 from routers.Complain_class import Complain
 from routers.PaymentMethod_class import PaymentMethod
+
 
 # models
 from models.BaseModel_class import User, coinInput, BookIdList, Uploadbook
@@ -123,7 +126,7 @@ reader1.update_book_collection_list(book1)
 
 controller.top_up(1, 500, 1)
 
-writer1.adding_coin = 10
+writer1.adding_coin = 2000
 reader1.adding_coin = 2000  
 # ------------------------------------------
 
@@ -142,8 +145,8 @@ async def upload_book(writer_id : int , book_detail : Uploadbook) -> dict:
     writer = controller.search_writer_by_id(writer_id)
     if writer is not None:
         book = Book(book_detail.name,book_detail.book_type,book_detail.price_coin,book_detail.intro,book_detail.content)
-        controller.upload_book(book,writer)
-        return {"Book's List" : controller.book_of_writer(writer)}
+        # controller.upload_book(book,writer)
+        return {"status" : controller.upload_book(book,writer)}
     
 @app.get("/show_book_collection_of_reader", tags=["Book"])
 async def Show_Book_Collection_of_Reader(Reader_id:int) -> dict:
@@ -154,6 +157,10 @@ async def show_book_when_upload_book(writer_name: str) -> dict:
     return {"Book's list" : controller.show_book_collection_of_writer(writer_name)}
 
 # Search
+@app.get("/search_coin", tags=['Coin'])
+async def search_coin(id:int) -> dict:
+    return {"coin": controller.search_coin(id)}
+
 @app.get("/search_book_by_name", tags = ["Search"])
 async def search_book_by_bookname(name:str) -> dict:
     return {"book_list" : controller.search_book_by_bookname(name)}
@@ -170,11 +177,11 @@ async def get_book_by_promotion(promotion:str) -> dict:
 #Cart
 @app.post("/add_cart", tags=['Cart'])
 async def add_book_to_card(reader_id: int, book_id: int) -> dict:
-    return {"book_in_cart": controller.add_book_to_cart(book_id, reader_id)} 
+    return {"book": controller.add_book_to_cart(book_id, reader_id)}
 
 @app.delete("/remove_book", tags = ["Cart"])
-async def remove_book_from_cart(reader_id: int, book_id: int):
-    return controller.remove_book_from_cart(reader_id, book_id)
+async def remove_book_from_cart(reader_id :int, book_id :int) -> dict:
+    return {"Message" : controller.remove_book_from_cart(reader_id, book_id)}
 
 @app.get("/show_cart", tags=["Cart"])
 async def show_cart(reader_id: int) -> dict:
@@ -214,11 +221,11 @@ async def show_payment_method()->dict:
 
 @app.post("/top_up", tags=['Money'])
 async def top_up(account_id : int, money : coinInput, chanel_id:int):
-    return {controller.top_up(account_id, money.coin,chanel_id)}
+    return {"status":controller.top_up(account_id, money.coin,chanel_id)}
 
 @app.post("/transfer", tags=['Money'])
 async def transfer_coin_to_money(writer_id:int, data: coinInput):
-    return {controller.transfer(writer_id, data.coin)}
+    return {"status": controller.transfer(writer_id, data.coin)}
 
 
 # Review
@@ -268,7 +275,6 @@ async def register_writer(user: User):
     else:
         raise HTTPException(status_code=400, detail=message)
 
-
 @app.post("/login", tags=["Register/Login"])
 async def login(user: User):
     account_id, account_type = controller.login(user.account_name, user.password)
@@ -300,3 +306,15 @@ async def view_writer_list():
         }
         writers.append(format)
     return {"writers": writers}
+
+upload_folder_path = r"C:\Users\User\Documents\KMITL\1D\OOP\web\Bailan-Baijai-main\template\images"
+
+@app.post("/uploadfile/", tags=["Upload Image"])
+async def create_upload_file(file: UploadFile = File(...)):
+    # Save the content of the uploaded file to a new file
+    file_path = os.path.join(upload_folder_path, file.filename)
+    
+    with open(file_path, "wb") as f:
+        f.write(file.file.read())
+
+    return {"filename": file_path}

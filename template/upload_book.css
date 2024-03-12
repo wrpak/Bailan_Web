@@ -1,0 +1,32 @@
+.custom-size {
+    width: 250px; /* ปรับขนาดตามต้องการ */
+    height: 50px; /* ปรับขนาดตามต้องการ */
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: -20px;
+  }
+  
+  .steps {
+    text-align: center;
+    margin-left: 450px;
+    margin-top: 20px;
+  }
+  
+  .step {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .exchange-rate {
+    text-align: center;
+  }
+  
+  .containerr {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }

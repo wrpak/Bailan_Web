@@ -1,0 +1,35 @@
+.cointrans-content,
+.payment-content{
+    width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid #6d6d6d;
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.divider {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+<style>
+    .row {
+        width: 100%;
+        padding: 10px;
+    }
+    .col_50 {
+        width: 50%;
+        height: 100px;
+        text-align: center;
+
+    }
+    .col_25 {
+        width: 25%;
+        height: 100px;
+    }
+    .r { background-color: red; }
+    .g { background-color: green; }
+    .b { background-color: blue; }
+    .p { background-color: pink; }
+</style>

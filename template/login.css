@@ -1,0 +1,12 @@
+input[type="radio"] + label {
+    color:#000;
+    font-family:Arial, sans-serif;
+}
+
+input[type="radio"]:checked + label::before {
+    background-color: #000; /* เปลี่ยนสีของขอบเป็นสีดำ */
+}
+    
+input[type="radio"] + label::before {
+    background-color: #333; /* เปลี่ยนสีของขอบเป็นสีเทาเข้ม */
+}

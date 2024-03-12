@@ -1,0 +1,27 @@
+.payment-container{
+    /* background-color: #ff774a;
+    width: 280px;
+    color: #fff; */
+    position: relative;
+    left: 600px;
+    border-radius: 10px;
+}
+
+.topic{
+    text-align: center;
+    
+}
+
+.payment-container input{
+    border-radius: 5px;
+    
+}
+
+.payment-container button{
+    margin-left: 110px;
+}
+
+.chanels-content{
+    text-align: center;
+    margin-top: 15px;
+}

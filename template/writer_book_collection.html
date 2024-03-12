@@ -45,14 +45,14 @@
 
     <script>
         window.onload = function() {
-            writer_book_collection()
-
             const queryParams = new URLSearchParams(window.location.search);
+            writer_book_collection(queryParams);
+        
             const searchInput = queryParams.get('search');
             if (searchInput) {
                 search_by_name_2(searchInput);
             }
-    
+        
             const queryParamsBookInfo = new URLSearchParams(window.location.search);
             const bookId = queryParamsBookInfo.get('id');
             if (bookId) {
