@@ -122,9 +122,6 @@ function displayBookList(bookList) {
   content.appendChild(divRow);
 }
 
-
-
-
 async function get_book_info(id) {
   const response = await axios.get(
     `http://127.0.0.1:8000/book_info?id=${id}`

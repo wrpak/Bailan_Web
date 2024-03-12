@@ -272,7 +272,7 @@ class Controller:
             if reader.cart is not None and reader.cart.book_cart_list:
                 cart_info = []
                 for book in reader.cart.book_cart_list:
-                    cart_info.append({"name": book.name, "price": book.price_coin})
+                    cart_info.append({"name": book.name, "price": book.price_coin, "id": book.id})
                 return cart_info
             else:
                 return "Reader's cart is empty"
