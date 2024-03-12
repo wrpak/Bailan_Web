@@ -13,10 +13,15 @@
     <div class="container mt-5">
         <h1 class="mb-4">Shopping Cart</h1>
         <div id="cartItems" class="row mt-4"></div> <!-- ส่วนนี้จะใช้ JavaScript ในการเติมรายการสินค้า -->
+
+        <p id="totalCoins">Total Coins: 0</p>
+
         <div class="text-end mt-4">
-            <button class="btn btn-primary">Checkout</button>
+            <button class="btn btn-primary" onclick="checkout()">Checkout</button>
         </div>
     </div>
+
+    <div id="content"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

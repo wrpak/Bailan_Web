@@ -56,7 +56,6 @@ async function search_by_name_2(input) {
 document.getElementById("searchButton").addEventListener("click", search_by_name);
 
 function displayBookList(bookList) {
-
   const content = document.getElementById("content");
   content.innerHTML = '';
 
@@ -122,6 +121,8 @@ function displayBookList(bookList) {
 
   content.appendChild(divRow);
 }
+
+
 
 
 async function get_book_info(id) {
