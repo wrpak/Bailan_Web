@@ -272,10 +272,6 @@ function displayComment(commentList) {
     const datetimeDiv = document.createElement('div');
     datetimeDiv.classList.add('datetimeDiv');
 
-    const commentPara = document.createElement('p');
-    commentPara.textContent = `${comment.comment}`;
-    commentDiv.appendChild(commentPara);
-
     const accountPara = document.createElement('p');
     accountPara.textContent = `${comment.account}`;
     accountDiv.appendChild(accountPara);
@@ -284,9 +280,18 @@ function displayComment(commentList) {
     datetimePara.textContent = `${comment.datetime}`;
     datetimeDiv.appendChild(datetimePara);
 
+    // Append accountDiv and datetimeDiv above the comment text
+    commentDiv.appendChild(accountDiv);
+    commentDiv.appendChild(datetimeDiv);
+
+    const commentPara = document.createElement('p');
+    commentPara.textContent = `${comment.comment}`;
+
+    commentPara.style.fontWeight = 'bold';
+
+    commentDiv.appendChild(commentPara);
+
     commentListDiv.appendChild(commentDiv);
-    commentListDiv.appendChild(accountDiv);
-    commentListDiv.appendChild(datetimeDiv);
   });
 }
 
