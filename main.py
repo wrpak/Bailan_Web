@@ -170,7 +170,7 @@ async def get_book_by_promotion(promotion:str) -> dict:
 #Cart
 @app.post("/add_cart", tags=['Cart'])
 async def add_book_to_card(reader_id: int, book_id: int) -> dict:
-    return {"book_in_cart": controller.add_book_to_cart(book_id, reader_id)}
+    return {"book_in_cart": controller.add_book_to_cart(book_id, reader_id)} 
 
 @app.delete("/remove_book", tags = ["Cart"])
 async def remove_book_from_cart(reader_id: int, book_id: int):
@@ -252,19 +252,28 @@ async def view_complaints():
 from fastapi import HTTPException
 
 # Register/Login
-@app.post("/register", tags = [ "Register/Login"])
-async def register(user: User):
+@app.post("/register_reader", tags = [ "Register/Login"])
+async def register_reader(user: User):
     message = controller.register_reader(user.account_name, user.password)
     if "successfully" in message:
         return {"message": message}
     else:
         raise HTTPException(status_code=400, detail=message)
+    
+@app.post("/register_writer", tags = [ "Register/Login"])
+async def register_writer(user: User):
+    message = controller.register_writer(user.account_name, user.password)
+    if "successfully" in message:
+        return {"message": message}
+    else:
+        raise HTTPException(status_code=400, detail=message)
 
-@app.post("/login", tags = [ "Register/Login"])
+
+@app.post("/login", tags=["Register/Login"])
 async def login(user: User):
-    account = controller.login_reader(user.account_name, user.password)
-    if account:
-        return {"message": "Login successful", "account_id": account.id_account}
+    account_id, account_type = controller.login(user.account_name, user.password)
+    if account_id and account_type:
+        return {"message": "Login successful", "account_id": account_id, "account_type": account_type}
     else:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
@@ -279,3 +288,15 @@ async def view_reader_list():
         }
         readers.append(format)
     return {"readers": readers}
+
+@app.get("/view_writer_list", tags = [ "Register/Login"])
+async def view_writer_list():
+    writers = []
+    for writer in controller.writer_list:
+        format = {
+            "id": writer.id_account,
+            "username": writer.account_name,
+            "password": writer.password
+        }
+        writers.append(format)
+    return {"writers": writers}

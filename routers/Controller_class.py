@@ -491,14 +491,22 @@ class Controller:
             return "Have no complain."
         return complaints_info
 
-    def login_reader(self, account_name, password):
+    def login(self, account_name, password):
         for account in self.__reader_list:
             if account.account_name == account_name and account.password == password:
-                return account
+                return account.id_account, "reader"
         for account in self.writer_list:
             if account.account_name == account_name and account.password == password:
-                return account
-        return None
+                return account.id_account, "writer"
+        return None, None
+
+    def register_user(self, account_name, password, role):
+        if role == "reader":
+            return self.register_reader(account_name, password)
+        elif role == "writer":
+            return self.register_writer(account_name, password)
+        else:
+            return "Invalid role"    
 
     def register_reader(self, account_name, password):
         for reader in self.__reader_list:
@@ -511,4 +519,16 @@ class Controller:
         self.__reader_list.append(reader)
         
         return "Reader registered successfully."
+
+    def register_writer(self, account_name, password):
+        for writer in self.__writer_list:
+            if writer.account_name == account_name:
+                return "Username already exists. Please choose another one."
+
+        self.__num_of_account += 1
+        writer = Writer(account_name, password)
+        writer.id_account = self.__num_of_account
+        self.__writer_list.append(writer)
+        
+        return "Writer registered successfully."
         
