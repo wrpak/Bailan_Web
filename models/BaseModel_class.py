@@ -5,6 +5,10 @@ class User(BaseModel):
     account_name: str
     password: str
 
+class remove_book_request(BaseModel):
+    reader_id: int
+    book_id: int
+
 class coinInput(BaseModel):
     coin: int
     

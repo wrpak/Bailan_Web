@@ -173,8 +173,8 @@ async def add_book_to_card(reader_id: int, book_id: int) -> dict:
     return {"book_in_cart": controller.add_book_to_cart(book_id, reader_id)}
 
 @app.post("/remove_book", tags = ["Cart"])
-async def remove_book_from_cart(reader_id :int, book_id : int) -> dict:
-    return {"message" : controller.remove_book_from_cart(reader_id, book_id)}
+async def remove_book_from_cart(reader_id: int, book_id: int):
+    return controller.remove_book_from_cart(reader_id, book_id)
 
 @app.get("/show_cart", tags=["Cart"])
 async def show_cart(reader_id: int) -> dict:
